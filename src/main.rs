@@ -203,15 +203,15 @@ impl Entry {
         match self.data_type {
             EntryType::Link => {
                 let target = std::str::from_utf8(data)?;
-                std::fs::hard_link(target, &self.path)?;
+                let _ = std::fs::hard_link(target, &self.path);
             },
             EntryType::Symlink => {
                 let target = std::str::from_utf8(data)?;
-                fs::symlink(&self.path, target)?;
+                let _ = fs::symlink(&self.path, target);
             },
             EntryType::Regular => {
                 let f = File::create(&self.path)?;
-                f.write_at(data.as_slice(), 0)?;
+                let _ = f.write_at(data.as_slice(), 0);
             },
             EntryType::Directory => {
                 // hack because it expects that the directory doesnt already exists
