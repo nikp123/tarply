@@ -216,7 +216,8 @@ impl Entry {
             EntryType::Directory => {
                 // hack because it expects that the directory doesnt already exists
                 if self.path != "./" {
-                    std::fs::create_dir(&self.path)?;
+                    let _ = std::fs::create_dir(&self.path); // Don't use the result, otherwise it
+                                                             // can be a unintended panic
                 }
             },
             _ => panic!("Unhandled type"),
